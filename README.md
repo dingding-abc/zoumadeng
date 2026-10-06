@@ -41,7 +41,7 @@
 可在 PowerShell 中核对下载文件的摘要，与 Release 附带的 `SHA256SUMS.txt` 比较：
 
 ```powershell
-Get-FileHash -Algorithm SHA256 -LiteralPath '.\走马灯行情_0.1.0_x64-setup.exe'
+Get-FileHash -Algorithm SHA256 -LiteralPath '.\zoumadeng_0.1.0_x64-setup.exe'
 ```
 
 ## 开始使用
