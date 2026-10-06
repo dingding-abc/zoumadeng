@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "image": "assets/donations/wechat-receive.png",
+  "publicName": "dingding-abc",
+  "verifiedImageSha256": "e9f6c24d39b8c1daa6a11b544db0b487fb99483dfffb576c27899eb797bd196c",
+  "verifiedOn": "2026-10-06",
+  "verificationMethod": "owner-confirmed-wechat-export"
+}

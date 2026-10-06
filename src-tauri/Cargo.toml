@@ -1,0 +1,20 @@
+[package]
+name = "zoumadeng"
+version = "0.1.0"
+description = "轻量透明的 Windows A 股股票走马灯"
+authors = ["zoumadeng"]
+edition = "2021"
+
+[lib]
+name = "zoumadeng_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-global-shortcut = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.13.5", features = ["query"] }

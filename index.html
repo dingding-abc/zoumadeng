@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>走马灯行情</title>
+  </head>
+  <body>
+    <main id="app" aria-label="股票走马灯">
+      <nav class="ticker-toolbar" aria-label="显示控制">
+        <div class="toolbar-actions">
+          <button id="quick-add-button" class="toolbar-button add-button" type="button" aria-label="添加自选股">＋</button>
+          <span class="toolbar-divider" aria-hidden="true"></span>
+          <div class="window-controls" role="group" aria-label="窗口控制">
+            <button id="minimize-window-button" class="window-button" type="button" aria-label="最小化窗口">−</button>
+            <button id="close-window-button" class="window-button close-window-button" type="button" aria-label="关闭并隐藏到托盘">×</button>
+          </div>
+        </div>
+      </nav>
+
+      <span id="data-state" class="data-state" role="status" aria-live="polite">等待刷新</span>
+      <section class="ticker-viewport" aria-live="polite" aria-label="实时行情">
+        <div id="ticker-track" class="ticker-track"></div>
+        <div id="list-view" class="list-view" aria-label="股票列表"></div>
+        <div id="quotes-empty" class="quotes-empty" hidden>暂无自选股，点击 ＋ 添加</div>
+      </section>
+
+      <section id="quick-add-panel" class="quick-add-panel" aria-label="添加自选股" hidden>
+        <div class="quick-add-title-row">
+          <strong>添加自选股</strong>
+          <button id="close-quick-add" class="quiet-button" type="button" aria-label="关闭添加股票">×</button>
+        </div>
+        <input id="stock-search-input" class="field-control" type="search" autocomplete="off" placeholder="输入代码或名称" aria-controls="stock-search-results" />
+        <p id="stock-search-status" class="search-status" role="status" aria-live="polite"></p>
+        <div id="stock-search-results" class="stock-search-results" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+      <form id="settings-form" method="dialog">
+        <div class="settings-title-row">
+          <h2 id="settings-title">样式设置</h2>
+          <button id="close-settings" class="quiet-button" type="button" aria-label="取消并关闭设置">×</button>
+        </div>
+
+        <section class="settings-section" aria-labelledby="appearance-title">
+          <h3 id="appearance-title">外观</h3>
+          <div class="color-grid">
+            <label class="color-row"><span>整体颜色</span><input id="background-color-input" type="color" value="#ffffff" aria-label="选择整体颜色" /><code id="background-color-value">#FFFFFF</code></label>
+            <label class="color-row"><span>文字颜色</span><input id="text-color-input" type="color" value="#444444" aria-label="选择文字颜色" /><code id="text-color-value">#444444</code></label>
+            <label class="color-row"><span>灰色线条</span><input id="line-color-input" type="color" value="#d9d9d9" aria-label="选择灰色线条" /><code id="line-color-value">#D9D9D9</code></label>
+          </div>
+          <div class="range-row"><label for="background-opacity-range">背景透明度 <output id="background-opacity-value">20%</output></label><input id="background-opacity-range" type="range" min="5" max="100" step="1" value="20" /></div>
+          <div class="range-row"><label for="text-opacity-range">字体透明度 <output id="text-opacity-value">35%</output></label><input id="text-opacity-range" type="range" min="5" max="100" step="1" value="35" /></div>
+          <div class="range-row"><label for="font-range">主界面统一字号 <output id="font-value">12px</output></label><input id="font-range" type="range" min="8" max="18" step="1" value="12" /></div>
+          <div class="range-row"><label for="speed-range">滚动速度 <output id="speed-value">36</output></label><input id="speed-range" type="range" min="8" max="90" step="1" value="36" /></div>
+        </section>
+
+        <section class="settings-section" aria-labelledby="change-color-title">
+          <h3 id="change-color-title">涨跌颜色</h3>
+          <div class="color-grid">
+            <label class="color-row"><span>上涨</span><input id="up-color-input" type="color" value="#d94a4a" aria-label="选择上涨颜色" /><code id="up-color-value">#D94A4A</code></label>
+            <label class="color-row"><span>下跌</span><input id="down-color-input" type="color" value="#2e8b57" aria-label="选择下跌颜色" /><code id="down-color-value">#2E8B57</code></label>
+            <label class="color-row"><span>平盘</span><input id="flat-color-input" type="color" value="#777777" aria-label="选择平盘颜色" /><code id="flat-color-value">#777777</code></label>
+          </div>
+        </section>
+
+        <section class="settings-section" aria-labelledby="fields-title">
+          <h3 id="fields-title">显示内容</h3>
+          <div class="field-checkboxes">
+            <label><input type="checkbox" name="list-field" value="symbol" checked /> 代码</label>
+            <label><input type="checkbox" name="list-field" value="name" /> 名称</label>
+            <label><input type="checkbox" name="list-field" value="price" /> 价格</label>
+            <label><input type="checkbox" name="list-field" value="changePct" checked /> 涨幅</label>
+            <label><input type="checkbox" name="list-field" value="change" /> 涨跌</label>
+            <label><input type="checkbox" name="list-field" value="turnoverRate" /> 换手</label>
+            <label><input type="checkbox" name="list-field" value="volume" /> 成交量</label>
+            <label><input type="checkbox" name="list-field" value="amount" /> 成交额</label>
+          </div>
+        </section>
+
+        <section class="settings-section" aria-labelledby="backup-title">
+          <h3 id="backup-title">配置备份与恢复</h3>
+          <button id="export-settings" class="secondary-button" type="button">导出已保存配置</button>
+          <button id="restore-previous-settings" class="secondary-button" type="button">载入导入前恢复点</button>
+          <label for="import-settings-file">导入 JSON 文件（先载入草稿）</label>
+          <input id="import-settings-file" type="file" accept=".json,application/json" />
+          <details id="backup-details"><summary>配置 JSON（可复制或粘贴）</summary>
+            <textarea id="backup-text" rows="5" aria-label="配置 JSON" spellcheck="false"></textarea>
+            <button id="download-settings" class="secondary-button" type="button">下载 JSON</button>
+            <button id="import-settings-text" class="secondary-button" type="button">载入 JSON 草稿</button>
+          </details>
+          <p id="backup-status" class="search-status" role="status"></p>
+        </section>
+        <div class="settings-actions">
+          <button id="reset-button" class="secondary-button" type="button">恢复默认</button>
+          <button id="cancel-settings" class="secondary-button" type="button">取消</button>
+          <button class="primary-button" type="submit">保存设置</button>
+        </div>
+        <p id="settings-save-status" class="search-status" role="status" aria-live="polite"></p>
+      </form>
+    </dialog>
+
+    <div id="context-menu" class="context-menu" role="menu" hidden>
+      <button id="context-add" type="button" role="menuitem">添加股票</button>
+      <button id="context-delete" class="stock-context-action danger-menu-item" type="button" role="menuitem" hidden>删除股票</button>
+      <button id="context-view" type="button" role="menuitem">切换到列表</button>
+      <button id="context-header" class="list-context-action" type="button" role="menuitem" hidden>隐藏表头</button>
+      <button id="context-update-time" type="button" role="menuitem">隐藏更新时间</button>
+      <button id="context-frame" type="button" role="menuitem">隐藏程序框</button>
+      <button class="stock-context-action" type="button" role="menuitem" data-sort-action="top" hidden>置顶</button>
+      <button class="stock-context-action" type="button" role="menuitem" data-sort-action="up" hidden>上移</button>
+      <button class="stock-context-action" type="button" role="menuitem" data-sort-action="down" hidden>下移</button>
+      <button class="stock-context-action" type="button" role="menuitem" data-sort-action="bottom" hidden>置底</button>
+      <button id="context-settings" type="button" role="menuitem">打开设置</button>
+      <button id="context-quit" type="button" role="menuitem">退出应用</button>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

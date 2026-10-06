@@ -1,0 +1,29 @@
+{
+  "name": "zoumadeng",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "description": "轻量、透明的 Windows A 股股票走马灯",
+  "type": "module",
+  "engines": {
+    "node": ">=22.6"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build --configLoader runner",
+    "preview": "vite preview --host 127.0.0.1",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.8.0",
+    "@tauri-apps/plugin-global-shortcut": "^2.3.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.8.4",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.3"
+  }
+}

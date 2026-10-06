@@ -1,0 +1,21 @@
+node_modules/
+dist/
+src-tauri/target/
+src-tauri/gen/
+*.log
+
+# Local tools, backups and personal configuration
+.local-backups/
+.release/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.npm-cache/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
